@@ -46,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             end: Alignment.bottomRight,
             colors: [
               Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.tertiary ?? Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.tertiary,
               Theme.of(context).colorScheme.secondary,
             ],
           ),

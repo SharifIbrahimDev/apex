@@ -29,7 +29,7 @@ class StaffDashboardScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Hello, ${user?.name?.split(' ').first ?? 'Staff'}', style: Theme.of(context).textTheme.headlineMedium),
+                  Text('Hello, ${user?.name.split(' ').first ?? 'Staff'}', style: Theme.of(context).textTheme.headlineMedium),
                   const SizedBox(height: 8),
                   Text('Your performance overview for today.', style: TextStyle(color: Colors.grey.shade600, fontSize: 16)),
                   const SizedBox(height: 32),

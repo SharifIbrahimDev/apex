@@ -82,7 +82,7 @@ class ServicesListScreen extends ConsumerWidget {
                               child: Icon(Icons.business_center, color: Theme.of(context).colorScheme.primary),
                             ),
                             title: Text(service.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                            subtitle: Text(service.category?.name ?? 'Uncategorized', style: TextStyle(color: Colors.grey.shade500)),
+                            subtitle: Text(service.description ?? 'No description', style: TextStyle(color: Colors.grey.shade500)),
                             trailing: Text('₦${service.price}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                           ),
                         );
