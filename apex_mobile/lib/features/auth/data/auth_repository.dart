@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 import '../../../core/network/api_client.dart';
 import '../models/user_model.dart';
 
@@ -21,8 +22,14 @@ class AuthRepository {
         return UserModel.fromJson(response.data['user']);
       }
       return null;
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        final message = e.response?.data['message'] ?? 'Authentication failed';
+        throw Exception(message);
+      }
+      throw Exception('Network error: ${e.message}');
     } catch (e) {
-      throw Exception('Failed to login: $e');
+      throw Exception('An unexpected error occurred: $e');
     }
   }
 

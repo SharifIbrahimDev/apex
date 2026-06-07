@@ -12,29 +12,63 @@ class StaffDashboardScreen extends ConsumerWidget {
     final metricsAsync = ref.watch(staffMetricsProvider);
     final user = ref.watch(authProvider).value;
 
-    return metricsAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Center(child: Text('Error: $e')),
-      data: (metrics) {
-        return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      child: metricsAsync.when(
+        loading: () => _buildSkeletonLoader(context, key: const ValueKey('loading')),
+        error: (e, st) => Scaffold(key: const ValueKey('error'), body: Center(child: Text('Error: $e'))),
+        data: (metrics) {
+          return Scaffold(
+            key: const ValueKey('data'),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hello, ${user?.name?.split(' ').first ?? 'Staff'}', style: Theme.of(context).textTheme.headlineMedium),
+                  const SizedBox(height: 8),
+                  Text('Your performance overview for today.', style: TextStyle(color: Colors.grey.shade600, fontSize: 16)),
+                  const SizedBox(height: 32),
+                  _buildSummaryCards(context, metrics),
+                  const SizedBox(height: 32),
+                  _buildRecentTransactions(context, metrics.recentActivities),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSkeletonLoader(BuildContext context, {Key? key}) {
+    return Scaffold(
+      key: key,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(width: 150, height: 32, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(8))),
+            const SizedBox(height: 8),
+            Container(width: 250, height: 16, decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(8))),
+            const SizedBox(height: 32),
+            Row(
               children: [
-                Text('Hello, ${user?.name?.split(' ').first ?? 'Staff'}', style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: 8),
-                Text('Your performance overview for today.', style: TextStyle(color: Colors.grey.shade600, fontSize: 16)),
-                const SizedBox(height: 32),
-                _buildSummaryCards(context, metrics),
-                const SizedBox(height: 32),
-                _buildRecentTransactions(context, metrics.recentActivities),
+                Expanded(child: Container(height: 120, decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(20)))),
+                const SizedBox(width: 16),
+                Expanded(child: Container(height: 120, decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(20)))),
               ],
             ),
-          ),
-        );
-      },
+            const SizedBox(height: 32),
+            Container(width: double.infinity, height: 300, decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(20))),
+          ],
+        ),
+      ),
     );
   }
 
