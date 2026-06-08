@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
-  static const String baseUrl = 'http://127.0.0.1:8000/api'; // Localhost for Chrome testing
+  static const String baseUrl = 'https://apex-api.daynapp.com/api'; // Live server
 
   final Dio dio;
 

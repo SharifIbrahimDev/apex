@@ -12,6 +12,14 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 
 // Public routes
+Route::get('/', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Welcome to the Apex Business Hub API. The system is fully operational.',
+        'version' => '1.0'
+    ]);
+});
+
 Route::post('/login', [AuthController::class, 'login']);
 
 // Protected routes
