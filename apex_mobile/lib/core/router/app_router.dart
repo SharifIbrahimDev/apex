@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../../features/activities/presentation/screens/activities_list_screen.dart';
 import '../../features/sales/presentation/screens/sales_list_screen.dart';
 import '../../features/sales/presentation/screens/sale_form_screen.dart';
 import '../../features/expenses/presentation/screens/expenses_list_screen.dart';
@@ -45,6 +46,10 @@ final goRouter = GoRouter(
               builder: (context, state) => const SaleFormScreen(),
             ),
           ],
+        ),
+        GoRoute(
+          path: '/activities',
+          builder: (context, state) => const ActivitiesListScreen(),
         ),
         GoRoute(
           path: '/expenses',

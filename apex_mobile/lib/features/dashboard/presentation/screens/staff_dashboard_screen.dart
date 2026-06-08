@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../models/dashboard_metrics_model.dart';
 import '../../../auth/providers/auth_provider.dart';
@@ -109,7 +110,10 @@ class StaffDashboardScreen extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                TextButton(onPressed: () {}, child: const Text('View All')),
+                TextButton(
+                  onPressed: () => context.go('/activities'), 
+                  child: const Text('View All'),
+                ),
               ],
             ),
             const SizedBox(height: 16),

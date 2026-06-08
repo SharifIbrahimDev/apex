@@ -17,6 +17,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
   final _passwordController = TextEditingController();
   String _role = 'staff';
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
@@ -50,8 +51,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
       appBar: AppBar(
         title: const Text('Add User', style: TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        foregroundColor: Colors.black87,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -90,11 +89,19 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
                 decoration: InputDecoration(
                   labelText: 'Temporary Password',
                   prefixIcon: const Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
                   filled: true,
                   fillColor: Colors.grey.shade50,
                 ),
-                obscureText: true,
+                obscureText: _obscurePassword,
                 validator: (v) => v!.length < 6 ? 'Minimum 6 characters' : null,
               ),
               const SizedBox(height: 20),

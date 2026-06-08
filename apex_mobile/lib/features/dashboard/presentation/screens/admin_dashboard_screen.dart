@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../models/dashboard_metrics_model.dart';
 import '../../providers/dashboard_provider.dart';
@@ -165,7 +166,10 @@ class AdminDashboardScreen extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                TextButton(onPressed: () {}, child: const Text('View All')),
+                TextButton(
+                  onPressed: () => context.go('/activities'), 
+                  child: const Text('View All'),
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -185,7 +189,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                     child: Icon(Icons.receipt_long, color: Theme.of(context).colorScheme.primary),
                   ),
                   title: Text(tx.service?.name ?? 'Unknown Service', style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text(tx.transactionDate.toString().split(' ')[0], style: TextStyle(color: Colors.grey.shade500)),
+                  subtitle: Text(tx.transactionDate.toString().split(' ')[0] + (tx.user != null ? ' • ${tx.user!.name.split(' ').first}' : ''), style: TextStyle(color: Colors.grey.shade500)),
                   trailing: Text('₦${tx.amount}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green)),
                 );
               },

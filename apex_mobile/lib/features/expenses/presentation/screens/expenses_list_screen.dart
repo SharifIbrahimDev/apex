@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/expenses_provider.dart';
+import '../../../auth/providers/auth_provider.dart';
 
 class ExpensesListScreen extends ConsumerWidget {
   const ExpensesListScreen({super.key});
@@ -9,6 +10,8 @@ class ExpensesListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final expensesAsync = ref.watch(expensesProvider);
+    final currentUser = ref.watch(authProvider).value;
+    final isAdmin = currentUser?.role == 'admin';
 
     return Scaffold(
       appBar: AppBar(
@@ -82,7 +85,7 @@ class ExpensesListScreen extends ConsumerWidget {
                               child: const Icon(Icons.money_off, color: Colors.red),
                             ),
                             title: Text(expense.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                            subtitle: Text(expense.expenseDate.toString().split(' ')[0], style: TextStyle(color: Colors.grey.shade500)),
+                            subtitle: Text(expense.expenseDate.toString().split(' ')[0] + (isAdmin && expense.user != null ? ' • ${expense.user!.name.split(' ').first}' : ''), style: TextStyle(color: Colors.grey.shade500)),
                             trailing: Text('-₦${expense.amount}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.red)),
                           ),
                         );

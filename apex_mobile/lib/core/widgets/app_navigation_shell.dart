@@ -86,8 +86,24 @@ class _AppNavigationShellState extends ConsumerState<AppNavigationShell> {
                         child: IconButton(
                           icon: const Icon(Icons.logout),
                           onPressed: () {
-                            ref.read(authProvider.notifier).logout();
-                            context.go('/login');
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Logout'),
+                                content: const Text('Are you sure you want to logout?'),
+                                actions: [
+                                  TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                      ref.read(authProvider.notifier).logout();
+                                      context.go('/login');
+                                    },
+                                    child: const Text('Logout', style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                         ),
                       ),

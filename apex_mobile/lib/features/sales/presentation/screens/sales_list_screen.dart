@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/sales_provider.dart';
+import '../../../auth/providers/auth_provider.dart';
 
 class SalesListScreen extends ConsumerWidget {
   const SalesListScreen({super.key});
@@ -9,6 +10,8 @@ class SalesListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final salesAsync = ref.watch(salesProvider);
+    final currentUser = ref.watch(authProvider).value;
+    final isAdmin = currentUser?.role == 'admin';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Sales'), centerTitle: true, elevation: 0),
@@ -93,7 +96,7 @@ class SalesListScreen extends ConsumerWidget {
                       children: [
                         Text('₦${sale.amount}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green)),
                         const SizedBox(height: 4),
-                        Text(sale.transactionDate.toString().split(' ')[0], style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+                        Text(sale.transactionDate.toString().split(' ')[0] + (isAdmin && sale.user != null ? ' • ${sale.user!.name.split(' ').first}' : ''), style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
                       ],
                     ),
                   ),

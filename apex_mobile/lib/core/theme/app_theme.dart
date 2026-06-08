@@ -25,8 +25,8 @@ class AppTheme {
         titleLarge: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: secondaryColor),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.transparent,
-        foregroundColor: secondaryColor,
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
       ),
