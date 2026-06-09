@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../dashboard/providers/dashboard_provider.dart';
 import '../data/expenses_repository.dart';
 import '../models/expense_model.dart';
 
@@ -20,6 +21,8 @@ class ExpensesNotifier extends AsyncNotifier<List<ExpenseModel>> {
     final repository = ref.read(expensesRepositoryProvider);
     final newExpense = await repository.createExpense(data);
     state = AsyncData([newExpense, ...?state.value]);
+    ref.invalidate(adminMetricsProvider);
+    ref.invalidate(staffMetricsProvider);
   }
 }
 

@@ -18,9 +18,12 @@ class AdminDashboardScreen extends ConsumerWidget {
       data: (metrics) {
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: Column(
+          body: RefreshIndicator(
+            onRefresh: () async => ref.invalidate(adminMetricsProvider),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Overview', style: Theme.of(context).textTheme.headlineMedium),
@@ -33,6 +36,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                 const SizedBox(height: 32),
                 _buildRecentTransactions(context, metrics.recentTransactions),
               ],
+            ),
             ),
           ),
         );

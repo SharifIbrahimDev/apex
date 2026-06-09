@@ -25,9 +25,12 @@ class StaffDashboardScreen extends ConsumerWidget {
           return Scaffold(
             key: const ValueKey('data'),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-              child: Column(
+            body: RefreshIndicator(
+              onRefresh: () async => ref.invalidate(staffMetricsProvider),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Hello, ${user?.name.split(' ').first ?? 'Staff'}', style: Theme.of(context).textTheme.headlineMedium),
@@ -38,6 +41,7 @@ class StaffDashboardScreen extends ConsumerWidget {
                   const SizedBox(height: 32),
                   _buildRecentTransactions(context, metrics.recentActivities),
                 ],
+              ),
               ),
             ),
           );
